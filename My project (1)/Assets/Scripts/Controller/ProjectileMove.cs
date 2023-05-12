@@ -6,6 +6,14 @@ public class ProjectileMove : MonoBehaviour
 {
     public Vector3 launchDirection;
 
+    public enum BULLETTYPE
+    {
+        PLAYER,
+        ENEMY
+    }
+
+    public BULLETTYPE bulletType = BULLETTYPE.PLAYER;
+
 
     private void FixedUpdate()
     {
@@ -45,9 +53,15 @@ public class ProjectileMove : MonoBehaviour
 
 
 
-        if (other.gameObject.tag == "Monster")
+        if (other.gameObject.tag == "Monster" &&bulletType == BULLETTYPE.PLAYER)
         {
             other.gameObject.GetComponent<MonsterController>().Monster_Damaged(1);
+            GameObject temp = this.gameObject;
+            Destroy(temp);
+        }
+        if (other.gameObject.tag == "Monster" && bulletType == BULLETTYPE.ENEMY)
+        {
+            //other.gameObject.GetComponent<PlayerController>().Monster_Damaged(1);
             GameObject temp = this.gameObject;
             Destroy(temp);
         }
